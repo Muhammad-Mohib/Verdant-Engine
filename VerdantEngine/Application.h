@@ -1,16 +1,21 @@
 #pragma once
-#include <GLFW/glfw3.h>
+
+class Window;
+
 
 class Application
 {
 public:
 	Application();
-	~Application();
+	virtual ~Application();
 	
 	void Run();
 	void Shutdown();
 
-private:
-	Window* window;
-};
+protected:
+	virtual void OnStart() {}
+	virtual void OnUpdate(float deltaTime) = 0;
 
+private:
+	Window* window = nullptr;
+};
