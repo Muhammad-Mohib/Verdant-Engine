@@ -24,9 +24,9 @@ public:
 	void Draw();
 
 	void Bind();
-	static std::string textureDirectory;
 
 private:
+	static std::string textureDirectory;
 
 };
 

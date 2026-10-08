@@ -8,8 +8,6 @@ GameObject::GameObject(std::vector<float> Vertices, std::vector<unsigned int> In
 {
 	texture.ActivateTexture(shader.ID);
 
-	std::cout << textureDirectory << " " << TextureImageName;
-
 	vertices = Vertices;
 	glGenBuffers(1, &EBO);
 	glGenBuffers(1, &VBO);
