@@ -16,6 +16,7 @@ void Application::Run()
 	
 	while (!window->ShouldClose())
 	{
+		//std::cout << 
 		double currentTime = glfwGetTime();
 		float deltaTime =
 		static_cast<float>(currentTime - previousTime);	
@@ -28,18 +29,17 @@ void Application::Run()
 
 		OnUpdate(deltaTime);
 
-		glDrawElements(
-			GL_TRIANGLES,
-			12,
-			GL_UNSIGNED_INT,
-			nullptr
-		);
-
-		
+		//glDrawElements(
+		//	GL_TRIANGLES,
+		//	6,
+		//	GL_UNSIGNED_INT,
+		//	nullptr
+		//);
 
 		window->Update();
 	}
 }
+
 
 Application::Application()
 {

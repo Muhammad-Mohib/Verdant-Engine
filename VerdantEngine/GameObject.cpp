@@ -1,8 +1,14 @@
 #include "GameObject.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-GameObject::GameObject(std::vector<float> Vertices, std::vector<unsigned int> Indices) : shader("C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\VerdantEngine\\default.vert","C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\VerdantEngine\\default.frag"), texture("C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\VerdantEngine\\sunflower.png")
+std::string GameObject::textureDirectory = "";
+
+GameObject::GameObject(std::vector<float> Vertices, std::vector<unsigned int> Indices, std::string TextureImageName) : shader("C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\VerdantEngine\\default.vert", "C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\VerdantEngine\\default.frag"), texture((textureDirectory+TextureImageName))
 {
 	texture.ActivateTexture(shader.ID);
+
+	std::cout << textureDirectory << " " << TextureImageName;
 
 	vertices = Vertices;
 	glGenBuffers(1, &EBO);
@@ -26,10 +32,89 @@ GameObject::GameObject(std::vector<float> Vertices, std::vector<unsigned int> In
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
+	//glm::mat4 model = glm::mat4(1.0f);
+
+	//model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	//int modelLoc = glGetUniformLocation(shader.ID, "model");
+
+	//shader.Activate();
+
+	//glUniformMatrix4fv(
+	//	modelLoc,
+	//	1,
+	//	GL_FALSE,
+	//	glm::value_ptr(model)
+	//);
+
+
+	//texture.ActivateTexture(0);
+	//texture.Bind();
+
+	//glUniform1i(
+	//	glGetUniformLocation(shader.ID, "tex"),
+	//	0
+	//);
+
+	//Bind();
+
+	//glDrawElements(
+	//	GL_TRIANGLES,
+	//	6,
+	//	GL_UNSIGNED_INT,
+	//	nullptr
+	//);
+
+	Draw();
+
+}
+
+void GameObject::setPosition(glm::vec2 newPosition)
+{
+	position = newPosition;
+}
+
+void GameObject::Draw()
+{
+	glm::mat4 model = glm::mat4(1.0f);
+
+	model = glm::translate(model, glm::vec3(position, 0.0f));
+
+	shader.Activate();
+
+	glUniformMatrix4fv(
+		glGetUniformLocation(shader.ID, "model"),
+		1,
+		GL_FALSE,
+		glm::value_ptr(model)
+	);
+
+
+	texture.ActivateTexture(0);
+	texture.Bind();
+
+	glUniform1i(
+		glGetUniformLocation(shader.ID, "tex"),
+		0
+	);
+
+	Bind();
+
+	glDrawElements(
+		GL_TRIANGLES,
+		6,
+		GL_UNSIGNED_INT,
+		nullptr
+	);
 }
 
 void GameObject::Bind()
 {
 	shader.Activate();
 	glBindVertexArray(VAO);
+}
+
+void GameObject::setTextureDirectory(std::string directory)
+{
+	GameObject::textureDirectory = directory;
 }

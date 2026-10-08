@@ -2,60 +2,57 @@
 #include<iostream>
 #include <GameObject.h>
 #include <vector>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 std::vector<float> vertices = {
-	// Left quad
-	// position       // UV
-	-0.9f, -0.5f,     0.0f, 0.0f,
-	-0.1f, -0.5f,     1.0f, 0.0f,
-	-0.1f,  0.5f,     1.0f, 1.0f,
-	-0.9f,  0.5f,     0.0f, 1.0f,
-
-	// Right quad
-	 0.1f, -0.5f,     0.0f, 0.0f,
-	 0.9f, -0.5f,     1.0f, 0.0f,
-	 0.9f,  0.5f,     1.0f, 1.0f,
-	 0.1f,  0.5f,     0.0f, 1.0f
+	// position     // UV
+	-0.1f, -0.1f,   0.0f, 0.0f,
+	 0.1f, -0.1f,   1.0f, 0.0f,
+	 0.1f,  0.2f,   1.0f, 1.0f,
+	-0.1f,  0.2f,   0.0f, 1.0f
 };
 
 std::vector<unsigned int> indices = {
-	// Left quad
 	0, 1, 2,
-	2, 3, 0,
-
-	// Right quad
-	4, 5, 6,
-	6, 7, 4
+	2, 3, 0
 };
 
 class Game : public Application
 {
 
-	GameObject tri = GameObject(vertices, indices);
+	GameObject plant1 = GameObject(vertices, indices, "sunflower.png");
+	//GameObject plant2 = GameObject(vertices, indices);
+	//GameObject plant3 = GameObject(vertices, indices);
+	//GameObject plant4 = GameObject(vertices, indices);
 
-protected:
+protected:	
 	void OnStart() override
 	{
 	}
 
 	void OnUpdate(float deltaTime) override
 	{
-		tri.shader.Activate();
-		tri.texture.Bind();
-		tri.texture.ActivateTexture(0);
+		plant1.Draw();
+		//plant2.Draw();
+		//plant3.Draw();
+		//plant4.Draw();
 
-		glUniform1i(
-			glGetUniformLocation(tri.shader.ID, "tex"),
-			GL_TEXTURE0
-		);
-
-
-		tri.Bind();
+		//plant1.setPosition(glm::vec2(deltaTime * 0.0001, deltaTime * 0.15));
+		//plant2.setPosition(glm::vec2(deltaTime * 0.03, deltaTime * 0.05));
+		//plant3.setPosition(glm::vec2(deltaTime * 0.05, deltaTime * 0.15));
 	}
 };
 
+void setConfig()
+{
+	GameObject::setTextureDirectory("C:\\Users\\mohib\\source\\repos\\Muhammad-Mohib\\Verdant-Engine\\Game\\Textures\\");
+}
+
 int main()
 {
+	setConfig();
+
 	Game game;
 	game.Run();
 
