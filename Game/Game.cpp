@@ -39,7 +39,9 @@ class Game : public Application
 
 	std::vector<std::unique_ptr<GameObject>> plants;
 
-	std::unique_ptr<GameObject> Background;
+	std::vector<std::unique_ptr<Shooter>> shooters;
+
+	//std::unique_ptr<GameObject> Background;
 
 	//GameObject Background = GameObject(background_verts, background_indices, "background.jpeg");
 
@@ -52,17 +54,30 @@ class Game : public Application
 	//GameObject plant4 = GameObject(vertices, indices);
 
 	//Shooter peashooter = Shooter(plant_verts, plant_indices, "snow_pal.png");
-	Shooter peashooter = Shooter(plant_verts, plant_indices, "repeater.png");
+	//Shooter peashooter = Shooter(plant_verts, plant_indices, "repeater.png");
+
 protected:	
 	void OnStart() override
 	{
-		Background = std::make_unique<GameObject>(
-			background_verts,
-			background_indices,
-			"background.jpeg"
+		GameObject* background = CreateGameObject(
+			background_verts, background_indices, "background.jpeg"
 		);
 
+		shooters.push_back(std::make_unique<Shooter>(
+			plant_verts, plant_indices, "peashooter2.png", *this
+		));
 
+		//GameObject* peashooter = CreateGameObject(
+		//	plant_verts, plant_indices, "peashooter2.png"
+		//);
+		//peashooter->setPosition(glm::vec2(200, 200));
+
+
+		//GameObject* repeater = CreateGameObject(
+		//	plant_verts, plant_indices, "repeater.png"
+		//);
+
+		//repeater->setPosition(glm::vec2(250, 300));
 		const int columns = 9;
 		const int plantCount = 45; // Two rows; use 45 for five rows
 
@@ -92,16 +107,19 @@ protected:
 	bool x = false;
 	void OnUpdate(float deltaTime) override
 	{
-		Background->Draw();
+		//shooter.UpdateBulletsPos(deltaTime);
+		
+		//Background->Draw();
 
-		peashooter.GetGameObject()->Draw();
-		peashooter.GetGameObject()->setPosition(glm::vec2(210,170));
+		//peashooter.GetGameObject()->Draw();
+		//peashooter.GetGameObject()->setPosition(glm::vec2(210,170));
 		//peashooter.GetGameObject().Draw();
 
-		for (const auto& plant : plants)
-		{
-			plant->Draw();
-		}
+		//for (const auto& plant : plants)
+		//{
+		//	plant->Draw();
+		//}
+
 		//plant2.setPosition(glm::vec2(210.0f, 320.0f));
 
 		//glm::vec2 cursorPosition = GetCursorPos();
@@ -116,6 +134,11 @@ protected:
 		//		plant2.setPosition(plant->position);
 		//	}
 		//}
+
+		for (const auto& shooter : shooters)
+		{
+			shooter->UpdateBulletsPos(deltaTime);
+		}
 
 	}
 };

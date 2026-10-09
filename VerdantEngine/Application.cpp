@@ -5,7 +5,6 @@
 #include "Window.h"
 #include "Application.h"
 #include "Shader.h"
-#include "GameObject.h";
 #include "Texture.h"
 
 void Application::Run()
@@ -32,6 +31,8 @@ void Application::Run()
 
 		OnUpdate(deltaTime);
 
+		DrawGameObjects();
+
 		//glDrawElements(
 		//	GL_TRIANGLES,
 		//	6,
@@ -43,18 +44,31 @@ void Application::Run()
 	}
 }
 
+GameObject* Application::CreateGameObject(const std::vector<float>& vertices, const std::vector<unsigned int>& indices, const std::string& textureName)
+{
+	auto object = std::make_unique<GameObject>(
+		vertices, indices, textureName
+	);
+
+	GameObject* pointer = object.get();
+
+	gameObjects.push_back(std::move(object));
+	return pointer;
+}
+
 glm::vec2 Application::GetCursorPos()
 {
 	double xpos, ypos;
 	glfwGetCursorPos(window->m_Window, &xpos, &ypos);
 	return glm::vec2(xpos, ypos);
 }
-//
-//std::unique_ptr<GameObject> Application::CreateGameObject()
-//{
-//	return nullptr;
-//}
-
+void Application::DrawGameObjects()
+{
+	for (const auto& object : gameObjects)
+	{
+		object->Draw();
+	}
+}
 
 Application::Application()
 {
