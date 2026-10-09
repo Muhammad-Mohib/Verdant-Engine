@@ -4,13 +4,14 @@
 #include <vector>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Shooter.h"
 
 std::vector<float> plant_verts = {
-	// position     // UV
-	-0.5f, -0.5f,   0.0f, 0.0f,
-	0.5f, -0.5f,   1.0f, 0.0f,
-	0.5f,  0.5f,   1.0f, 1.0f,
-	-0.5f,  0.5f,   0.0f, 1.0f
+	// Position     // UV
+	 0.0f,  0.0f,   0.0f, 0.0f,
+	50.0f,  0.0f,   1.0f, 0.0f,
+	50.0f, 50.0f,   1.0f, 1.0f,
+	 0.0f, 50.0f,   0.0f, 1.0f
 };
 
 std::vector<unsigned int> plant_indices = {
@@ -18,52 +19,104 @@ std::vector<unsigned int> plant_indices = {
 	2, 3, 0
 };
 
+std::vector<float> background_verts = {
+	// Position        // UV
+	   0.0f,   0.0f,   0.0f, 0.0f,
+	1112.0f,   0.0f,   1.0f, 0.0f,
+	1112.0f, 600.0f,   1.0f, 1.0f,
+	   0.0f, 600.0f,   0.0f, 1.0f
+};
+
+std::vector<unsigned int> background_indices = {
+	0, 1, 2,
+	2, 3, 0
+};
+
+
 class Game : public Application
 {
-	GameObject plant1 = GameObject(plant_verts, plant_indices, "sunflower.png");
+	std::vector<glm::vec2> Grid;
+
+	std::vector<std::unique_ptr<GameObject>> plants;
+
+	std::unique_ptr<GameObject> Background;
+
+	//GameObject Background = GameObject(background_verts, background_indices, "background.jpeg");
+
+
+	//GameObject plant1 = GameObject(plant_verts, plant_indices, "sunflower.png");
 	//GameObject plant2 = GameObject(plant_verts, plant_indices, "peashooter.png");
 	//GameObject plant3 = GameObject(plant_verts, plant_indices, "peashooter.png");
 	//GameObject plant2 = GameObject(vertices, indices);
 	//GameObject plant3 = GameObject(vertices, indices);
 	//GameObject plant4 = GameObject(vertices, indices);
 
+	//Shooter peashooter = Shooter(plant_verts, plant_indices, "snow_pal.png");
+	Shooter peashooter = Shooter(plant_verts, plant_indices, "repeater.png");
 protected:	
 	void OnStart() override
 	{
-	}
-
-	void OnUpdate(float deltaTime) override
-	{
-		plant1.Draw();
-		//plant2.Draw();
-		//plant3.Draw();
-		//plant4.Draw();
-
-		//plant1.setPosition(glm::vec2(deltaTime * 0.0001, deltaTime * 0.15));
-		glm::vec2 gridOffset = glm::vec2(0.202,0);
-		plant1.setPosition(glm::vec2(400.0f, 300.0f));
-
-		glm::vec2 cursorPosition = GetCursorPos();
+		Background = std::make_unique<GameObject>(
+			background_verts,
+			background_indices,
+			"background.jpeg"
+		);
 
 
-		std::cout << plant1.position.x << "   " << cursorPosition.x << "  " << plant1.position.y << "   " << cursorPosition.y << std::endl;
+		const int columns = 9;
+		const int plantCount = 45; // Two rows; use 45 for five rows
 
-		if ((cursorPosition.x - 30) <= plant1.position.x && 
-			(cursorPosition.x + 30) >= plant1.position.x &&
-			(cursorPosition.y +40) >= plant1.position.y && (cursorPosition.y -40) <= plant1.position.y)
+		const glm::vec2 gridOrigin(210.0f, 160.0f);
+		const glm::vec2 cellSize(65.0f, 80.0f);
+
+		for (int i = 0; i < plantCount; i++)
 		{
-			std::cout << "Cursor on plant!!!" << std::endl;
+			int column = i % columns;
+			int row = i / columns;
+
+			glm::vec2 position = gridOrigin + glm::vec2(
+				column * cellSize.x,
+				row * cellSize.y
+			);
+
+			auto plant = std::make_unique<GameObject>(
+				plant_verts, plant_indices, "transparent_plant_slot.png"
+			);
+
+			plant->setPosition(position);
+			plants.push_back(std::move(plant));
 		}
 
-		//plant1.setPosition(glm::vec2(-0.6, 0.4));
-		//plant2.setPosition(plant1.position + gridOffset);
-		//plant3.setPosition(plant2.position + gridOffset);
 
-		//std::cout << GetCursorPos().x << std::endl;
+	}
+	bool x = false;
+	void OnUpdate(float deltaTime) override
+	{
+		Background->Draw();
 
-		//std::cout << plant2.position.x << "   " << (plant2.position + gridOffset).x << std::endl;
-		//plant2.setPosition(glm::vec2(deltaTime * 0.03, deltaTime * 0.05));
-		//plant3.setPosition(glm::vec2(deltaTime * 0.05, deltaTime * 0.15));
+		peashooter.GetGameObject()->Draw();
+		peashooter.GetGameObject()->setPosition(glm::vec2(210,170));
+		//peashooter.GetGameObject().Draw();
+
+		for (const auto& plant : plants)
+		{
+			plant->Draw();
+		}
+		//plant2.setPosition(glm::vec2(210.0f, 320.0f));
+
+		//glm::vec2 cursorPosition = GetCursorPos();
+
+		//for (const auto& plant : plants)
+		//{
+		//	if ((cursorPosition.x - 50) <= plant->position.x &&
+		//		(cursorPosition.x + 5) >= plant->position.x &&
+		//		(cursorPosition.y + 10) >= plant->position.y && 
+		//		(cursorPosition.y - 40) <= plant->position.y)
+		//	{
+		//		plant2.setPosition(plant->position);
+		//	}
+		//}
+
 	}
 };
 

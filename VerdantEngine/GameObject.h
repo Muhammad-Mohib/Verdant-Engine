@@ -24,7 +24,6 @@ public:
 	void Draw();
 
 	void Bind();
-
 private:
 	static std::string textureDirectory;
 

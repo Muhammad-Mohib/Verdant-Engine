@@ -146,11 +146,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Plant.cpp" />
+    <ClCompile Include="Shooter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VerdantEngine\VerdantEngine.vcxproj">
       <Project>{230079b1-c2f9-4bc6-931a-196c1e804912}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Plant.h" />
+    <ClInclude Include="Shooter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

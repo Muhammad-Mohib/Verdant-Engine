@@ -12,6 +12,9 @@ void Application::Run()
 {
 	OnStart();
 
+
+	//SceneGameObjects = std::make_unique<GameObject>();
+
 	double previousTime = glfwGetTime();
 	
 	while (!window->ShouldClose())
@@ -46,6 +49,11 @@ glm::vec2 Application::GetCursorPos()
 	glfwGetCursorPos(window->m_Window, &xpos, &ypos);
 	return glm::vec2(xpos, ypos);
 }
+//
+//std::unique_ptr<GameObject> Application::CreateGameObject()
+//{
+//	return nullptr;
+//}
 
 
 Application::Application()
