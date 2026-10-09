@@ -104,7 +104,7 @@ protected:
 
 
 	}
-	bool x = false;
+
 	void OnUpdate(float deltaTime) override
 	{
 		//shooter.UpdateBulletsPos(deltaTime);
@@ -122,7 +122,7 @@ protected:
 
 		//plant2.setPosition(glm::vec2(210.0f, 320.0f));
 
-		//glm::vec2 cursorPosition = GetCursorPos();
+		glm::vec2 cursorPosition = GetCursorPos();
 
 		//for (const auto& plant : plants)
 		//{
@@ -135,11 +135,17 @@ protected:
 		//	}
 		//}
 
+		//if (cursorPosition.x > 600)
+		//{
+		//	std::cout << "TRIGE";
+		//	shooters[0]->StartShooting();
+		//}
+
 		for (const auto& shooter : shooters)
 		{
+			
 			shooter->UpdateBulletsPos(deltaTime);
 		}
-
 	}
 };
 

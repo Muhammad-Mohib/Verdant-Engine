@@ -21,7 +21,8 @@ void Application::Run()
 		//std::cout << 
 		double currentTime = glfwGetTime();
 		float deltaTime =
-		static_cast<float>(currentTime - previousTime);	
+		static_cast<float>(currentTime - previousTime);
+		previousTime = currentTime;
 
 		glClearColor(0.1f, 0.4f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);

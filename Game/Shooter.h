@@ -10,9 +10,9 @@ public:
 	GameObject* GetGameObject();
 
 	void UpdateBulletsPos(float deltaTime);
+	void StartShooting();
 
 protected:
-	void StartShooting();
 	void StopShooting();
 	Application& application;
 
@@ -21,6 +21,6 @@ private:
 	glm::vec2 ShootingOrigin;
 	glm::vec2 ShooterBulletOffset;
 	std::vector<GameObject*> bullets;
-	float bulletSpeed = 200.0f;
+	float bulletSpeed = 100.0f;
 };
 

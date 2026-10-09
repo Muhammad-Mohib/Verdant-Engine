@@ -22,7 +22,6 @@ Shooter::Shooter(std::vector<float> Vertices, std::vector<unsigned int> Indices,
 	Application), application(Application)
 {
 	ShooterBulletOffset = glm::vec2(40, -13);
-	ShootingOrigin = gameObject->position + ShooterBulletOffset;
 	StartShooting();
 }
 
@@ -30,16 +29,26 @@ GameObject* Shooter::GetGameObject()
 {
 	return gameObject;
 }
-
+int timer = 0;
 void Shooter::StartShooting()
 {
+	timer = 0;
+	ShootingOrigin = gameObject->position + ShooterBulletOffset;
 	isShooting = true;
-
+	
 	GameObject* bullet = application.CreateGameObject(plant_verts22, plant_indices22, "pea.png");
 	bullet->setPosition(ShootingOrigin);
 
 	bullets.push_back(bullet);
-	
+
+	std::cout << "Shooter: " << this
+		<< " | Bullet: " << bullet
+		<< " | Count: " << bullets.size()
+		<< '\n';
+	std::cout << "Spawn position: "
+		<< ShootingOrigin.x << ", "
+		<< ShootingOrigin.y << '\n';
+
 }
 
 void Shooter::StopShooting()
@@ -51,7 +60,6 @@ void Shooter::UpdateBulletsPos(float DeltaTime)
 {
 	for (const auto& bullet : bullets)
 	{
-		bullet->setPosition(ShootingOrigin + glm::vec2(bulletSpeed * DeltaTime, 0));
-		std::cout << DeltaTime << std::endl;
+		bullet->setPosition(bullet->position + glm::vec2(bulletSpeed * DeltaTime, 0));
 	}
 }
