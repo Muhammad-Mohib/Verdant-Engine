@@ -40,6 +40,13 @@ void Application::Run()
 	}
 }
 
+glm::vec2 Application::GetCursorPos()
+{
+	double xpos, ypos;
+	glfwGetCursorPos(window->m_Window, &xpos, &ypos);
+	return glm::vec2(xpos, ypos);
+}
+
 
 Application::Application()
 {

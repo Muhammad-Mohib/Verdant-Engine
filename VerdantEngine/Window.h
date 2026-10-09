@@ -9,7 +9,8 @@ public:
 	bool ShouldClose();
 	void Update();
 
-private:
 	GLFWwindow* m_Window;
+
+private:
 };
 

@@ -74,11 +74,24 @@ void GameObject::setPosition(glm::vec2 newPosition)
 
 void GameObject::Draw()
 {
+
 	glm::mat4 model = glm::mat4(1.0f);
 
 	model = glm::translate(model, glm::vec3(position, 0.0f));
-
+	model = glm::scale(model, glm::vec3(60.0f, 75.0f, 1.0f));
 	shader.Activate();
+
+	glm::mat4 projection = glm::ortho(
+		0.0f, 800.0f,    // Left, right
+		600.0f, 0.0f,    // Bottom, top: Y increases downward
+		-1.0f, 1.0f     // Near, far
+	);
+
+	glUniformMatrix4fv(
+		glGetUniformLocation(shader.ID, "projection"),
+		1, GL_FALSE, glm::value_ptr(projection)
+	);
+
 
 	glUniformMatrix4fv(
 		glGetUniformLocation(shader.ID, "model"),

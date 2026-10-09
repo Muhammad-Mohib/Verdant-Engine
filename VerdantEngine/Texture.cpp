@@ -2,7 +2,7 @@
 
 Texture::Texture(std::string filename)
 {
-	stbi_set_flip_vertically_on_load(true);
+	//stbi_set_flip_vertically_on_load(true);
 	unsigned char* data = stbi_load(filename.c_str(), &imageWidth, &imageHeight, &numberOfChannels, 0);
 	glGenTextures(1, &ID);
 	glActiveTexture(GL_TEXTURE0);
