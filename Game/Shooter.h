@@ -3,10 +3,21 @@
 #include<string>
 #include<vector>
 
+struct ShooterConfig
+{
+	std::string TextureImageName;
+	int FiringInterval;
+	// Add health, cost, firing interval, etc. here.
+};
+
 class Shooter : public Plant
 {
 public:
-	Shooter(std::vector<float> Vertices, std::vector<unsigned int> Indices, std::string TextureImageName, Application& Application);
+	Shooter(std::vector<float> Vertices, std::vector<unsigned int> Indices, std::string TextureImageName, Application& Application);	
+	
+	using Config = ShooterConfig;
+	Shooter(const Config& configuration, Application& application);
+
 	GameObject* GetGameObject();
 
 	void UpdateBulletsPos(float deltaTime);

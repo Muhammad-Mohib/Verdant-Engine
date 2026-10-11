@@ -60,6 +60,13 @@ void Shooter::UpdateBulletsPos(float DeltaTime)
 {
 	for (const auto& bullet : bullets)
 	{
-		bullet->setPosition(bullet->position + glm::vec2(bulletSpeed * DeltaTime, 0));
+		if (bullet->position.x > 800)
+		{
+			bullet->setPosition(ShootingOrigin);
+		}
+		else
+		{
+			bullet->setPosition(bullet->position + glm::vec2(bulletSpeed * DeltaTime, 0));
+		}
 	}
 }

@@ -28,5 +28,7 @@ private:
 
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
 
+	
+
 	void DrawGameObjects();
 };

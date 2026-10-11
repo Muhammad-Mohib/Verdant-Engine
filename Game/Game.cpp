@@ -5,7 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Shooter.h"
-
+#include<format>
+#include "SeedBank.h"
 std::vector<float> plant_verts = {
 	// Position     // UV
 	 0.0f,  0.0f,   0.0f, 0.0f,
@@ -22,11 +23,10 @@ std::vector<unsigned int> plant_indices = {
 std::vector<float> background_verts = {
 	// Position        // UV
 	   0.0f,   0.0f,   0.0f, 0.0f,
-	1112.0f,   0.0f,   1.0f, 0.0f,
-	1112.0f, 600.0f,   1.0f, 1.0f,
+	1400.0f,   0.0f,   1.0f, 0.0f,
+	1400.0f, 600.0f,   1.0f, 1.0f,
 	   0.0f, 600.0f,   0.0f, 1.0f
 };
-
 std::vector<unsigned int> background_indices = {
 	0, 1, 2,
 	2, 3, 0
@@ -41,43 +41,20 @@ class Game : public Application
 
 	std::vector<std::unique_ptr<Shooter>> shooters;
 
-	//std::unique_ptr<GameObject> Background;
-
-	//GameObject Background = GameObject(background_verts, background_indices, "background.jpeg");
-
-
-	//GameObject plant1 = GameObject(plant_verts, plant_indices, "sunflower.png");
-	//GameObject plant2 = GameObject(plant_verts, plant_indices, "peashooter.png");
-	//GameObject plant3 = GameObject(plant_verts, plant_indices, "peashooter.png");
-	//GameObject plant2 = GameObject(vertices, indices);
-	//GameObject plant3 = GameObject(vertices, indices);
-	//GameObject plant4 = GameObject(vertices, indices);
-
-	//Shooter peashooter = Shooter(plant_verts, plant_indices, "snow_pal.png");
-	//Shooter peashooter = Shooter(plant_verts, plant_indices, "repeater.png");
-
 protected:	
 	void OnStart() override
 	{
 		GameObject* background = CreateGameObject(
-			background_verts, background_indices, "background.jpeg"
+			background_verts, background_indices, "background1.jpg"
 		);
+		background->setPosition(glm::vec2(-220.0f, 0.0f));
 
 		shooters.push_back(std::make_unique<Shooter>(
-			plant_verts, plant_indices, "peashooter2.png", *this
+			plant_verts, plant_indices, "snow_pal.png", *this
 		));
 
-		//GameObject* peashooter = CreateGameObject(
-		//	plant_verts, plant_indices, "peashooter2.png"
-		//);
-		//peashooter->setPosition(glm::vec2(200, 200));
+		SeedBank seedBank = SeedBank(*this);
 
-
-		//GameObject* repeater = CreateGameObject(
-		//	plant_verts, plant_indices, "repeater.png"
-		//);
-
-		//repeater->setPosition(glm::vec2(250, 300));
 		const int columns = 9;
 		const int plantCount = 45; // Two rows; use 45 for five rows
 
@@ -107,20 +84,6 @@ protected:
 
 	void OnUpdate(float deltaTime) override
 	{
-		//shooter.UpdateBulletsPos(deltaTime);
-		
-		//Background->Draw();
-
-		//peashooter.GetGameObject()->Draw();
-		//peashooter.GetGameObject()->setPosition(glm::vec2(210,170));
-		//peashooter.GetGameObject().Draw();
-
-		//for (const auto& plant : plants)
-		//{
-		//	plant->Draw();
-		//}
-
-		//plant2.setPosition(glm::vec2(210.0f, 320.0f));
 
 		glm::vec2 cursorPosition = GetCursorPos();
 
@@ -143,7 +106,6 @@ protected:
 
 		for (const auto& shooter : shooters)
 		{
-			
 			shooter->UpdateBulletsPos(deltaTime);
 		}
 	}
